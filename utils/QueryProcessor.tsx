@@ -23,6 +23,14 @@ export default function QueryProcessor(query: string): string {
     return (num1 + num2).toString();
   }
 
+  const minusMatch = lowerQuery.match(/what(?:'s| is)? (\d+)\s+minus\s+(\d+)/);
+  if (minusMatch) {
+    const num1 = parseInt(minusMatch[1], 10);
+    const num2 = parseInt(minusMatch[2], 10);
+    return (num1 - num2).toString();
+  }
+
+
   const largestMatch = lowerQuery.match(
     /which of the following numbers is the largest[:\s]*([\d,\s]+)/,
   );
