@@ -30,6 +30,20 @@ export default function QueryProcessor(query: string): string {
     return (num1 - num2).toString();
   }
 
+  const timesMatch = lowerQuery.match(/what(?:'s| is)? (\d+)\s+(?:times|multiplied by)\s+(\d+)/);
+  if (timesMatch) {
+    const num1 = parseFloat(timesMatch[1]);
+    const num2 = parseFloat(timesMatch[2]);
+    return (num1 * num2).toString();
+  }
+
+  const divideMatch = lowerQuery.match(/what(?:'s| is)? (\d+)\s+(?:divided by|over)\s+(\d+)/);
+  if (divideMatch) {
+    const num1 = parseFloat(divideMatch[1]);
+    const num2 = parseFloat(divideMatch[2]);
+    if (num2 === 0) return "Cannot divide by zero";
+    return (num1 / num2).toString();
+  }
 
   const largestMatch = lowerQuery.match(
     /which of the following numbers is the largest[:\s]*([\d,\s]+)/,
