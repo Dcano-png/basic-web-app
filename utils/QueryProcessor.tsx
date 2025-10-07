@@ -38,6 +38,20 @@ export default function QueryProcessor(query: string): string {
     }
   }
 
+  const lowestMatch = lowerQuery.match(
+    /which of the following numbers is the (?:lowest|smallest)[:\s]*([\d,\s]+)/,
+  );
+  if (lowestMatch) {
+    const numbers = lowestMatch[1]
+      .split(/[\s,]+/)
+      .filter(Boolean)
+      .map((n) => parseFloat(n));
+    if (numbers.length > 0) {
+      const minNumber = Math.min(...numbers);
+      return minNumber.toString();
+    }
+  }
+
   return "";
   
  
