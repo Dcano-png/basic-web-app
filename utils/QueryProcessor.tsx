@@ -14,13 +14,28 @@ export default function QueryProcessor(query: string): string {
  if (query.toLowerCase().includes("andrew id")) {
     return "Dcano";
   }
+  const lowerQuery = query.toLowerCase();
 
-  if (query.toLowerCase().includes("What is 24 plus 93?")) {
-    return "117";
+  const plusMatch = lowerQuery.match(/what(?:'s| is)? (\d+)\s+plus\s+(\d+)/);
+  if (plusMatch) {
+    const num1 = parseInt(plusMatch[1], 10);
+    const num2 = parseInt(plusMatch[2], 10);
+    return (num1 + num2).toString();
   }
 
-  if (query.toLowerCase().includes("What is 36 plus 6")) {
-    return "42";
+  const largestMatch = lowerQuery.match(
+    /which of the following numbers is the largest[:\s]*([\d,\s]+)/,
+  );
+  if (largestMatch) {
+    const numbers = largestMatch[1]
+      .split(/[\s,]+/)
+      .filter(Boolean)
+      .map((n) => parseFloat(n));
+
+    if (numbers.length > 0) {
+      const maxNumber = Math.max(...numbers);
+      return maxNumber.toString();
+    }
   }
 
   return "";
